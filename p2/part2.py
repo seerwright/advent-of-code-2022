@@ -1,37 +1,63 @@
 # Advent of Code 2022 
 
+from nis import match
+
+
 def main(input: list) -> None:
     # Input format
     #   Two characters
-    #   Char 1 = [A | B | C]
-    #   Char 1 = [X | Y | Z]
+    #   Char 1 = [A | B | C]  // This is the opponent's action
+    #   Char 2 = [X | Y | Z]  // The outcome you must effect
     #
     #   Example: [['A', 'X'], ['C', 'Z']]
 
     # Objective
     #   Get the total points for all RPS rounds in the input file
 
-    winning_strategy = get_winning_strategy()
     match_points = get_match_points()
+    match_outcomes = get_match_outcome_map()
+    action_points_map = get_action_points_map()
 
     tournament_total = 0
 
+    # Log what's going on
     print(f'a1\ta2\toutcome\ts_pts\tm_pts\tr_pts\tt_total')
 
-
-
     for round_actions in input:
-        round_outcome, selection_score = is_winner(actions=round_actions, 
-                                                   winning_strategy=winning_strategy)
-        match_score = match_points[round_outcome]
+        # What outcome do we need?
+        opponent_action = round_actions[0]
+        desired_outcome_code = round_actions[1]
+        desired_outcome = match_outcomes[desired_outcome_code]
+
+        # Which action should we take based on the action we need?
+        outcomes_for_action = action_points_map[opponent_action]
+
+        # Figure out the scoring
+        selection_score = outcomes_for_action[desired_outcome]
+        match_score = match_points[desired_outcome]
         round_score = selection_score + match_score
         tournament_total += round_score
-        print(f'{round_actions[0]}\t{round_actions[1]}\t{round_outcome}\t{selection_score}\t{match_score}\t{round_score}\t{tournament_total}')
+        
+        # Log each round
+        print(f'{round_actions[0]}\t{round_actions[1]}\t{desired_outcome}\t{selection_score}\t{match_score}\t{round_score}\t{tournament_total}')
     
-    print(f'Tournament Total is {tournament_total}')
+    print(f'\nTournament Total is {tournament_total}')
 
     return None
 
+
+def get_action_points_map() -> dict:
+    # For all combos of opponent's selection and 
+    # desired outcome [lose | draw | win], return the
+    # points associated with the action you must have taken
+    # Notes:
+    # 1 for Rock, 2 for Paper, and 3 for Scissors
+    # A for Rock, B for Paper, and C for Scissors
+    return {
+        'A': {'lose': 3, 'draw': 1, 'win': 2},
+        'B': {'lose': 1, 'draw': 2, 'win': 3},
+        'C': {'lose': 2, 'draw': 3, 'win': 1}
+    }
 
 def get_match_points() -> dict:
     return {
@@ -40,43 +66,12 @@ def get_match_points() -> dict:
         'win': 6
     }
 
-def is_winner(actions: list, winning_strategy: dict) -> list:
-    # Given two actions, opponent and player, return
-    # is winner (str) and points for selection (int)
-    opponent_action = actions[0]
-    winning_response, winning_points = winning_strategy[opponent_action]
-    actual_response = actions[1]
-    actual_points = get_selection_point_map(actual_response)
-
-
-    if get_selection_point_map(opponent_action) == get_selection_point_map(actual_response):
-        return 'draw', actual_points
-    elif actual_response == winning_response:
-        return 'win', winning_points
-    else:
-        return 'lose', actual_points
-
-def get_winning_strategy() -> dict:
-    # This strategy tells you what you will return 
-    # as a function of what the opponent does, plus 
-    # you get the selection points.
+def get_match_outcome_map() -> dict:
     return {
-        'A': ['Y', get_selection_point_map('Y')],
-        'B': ['Z', get_selection_point_map('Z')],
-        'C': ['X', get_selection_point_map('X')]
+        'X': 'lose',
+        'Y': 'draw',
+        'Z': 'win'
     }
-
-def get_selection_point_map(action: str) -> int:
-    score_map = {
-        'A': 1,
-        'B': 2,
-        'C': 3,
-        'X': 1,
-        'Y': 2,
-        'Z': 3
-    }
-    return score_map[action]
-
 
 def read_input(filename: str) -> list:
 
