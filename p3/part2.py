@@ -9,18 +9,30 @@ def main(input: list) -> None:
     #   Example: aBcDEa
 
     # Objective
-    #   Find items that appear in both rucksacks, determine their priority, return sum(priorities)
+    #   Get sum of priorities for single item common to each elven threesome
 
+    # Keep track of a few things...
     priorities = []
+    done = False
+    elf_groups = int(len(input)/3)
+    current_elf_group = 0
 
-    for list_of_stuff in input:
-        c1, c2 = get_compartment_items(list_of_stuff[0])
-        common_item = get_common_item(c1, c2)
-        item_priority = get_priority_of_item(common_item)
-        priorities.append(item_priority)
+    # Handle in groups of three
+    while not done:
+        group_stuff = input[3*current_elf_group:3*current_elf_group+3]
+        
+        common_group_item = get_common_group_item(group_stuff)
+
+        priority_of_item = get_priority_of_item(common_group_item)
+        priorities.append(priority_of_item)
+
+        current_elf_group += 1
+        if current_elf_group >= elf_groups:
+            done = True
+
 
     print(priorities)
-    print(f'Sum of priorities is {sum(priorities)}')
+    print(f'Sum of priorities of elven group items is {sum(priorities)}')
 
     return None
 
@@ -34,18 +46,11 @@ def get_priority_of_item(item: str) -> int:
     else:
         return ordval - 38
 
-
-def get_common_item(c1: str, c2: str) -> str:
-    for item in c1:
-        if item in c2:
+def get_common_group_item(group_stuff: list) -> str:
+    elf1, elf2, elf3 = group_stuff
+    for item in elf1[0]:
+        if item in elf2[0] and item in elf3[0]:
             return item
-
-def get_compartment_items(list_of_stuff: str) -> list:
-    num_items = len(list_of_stuff)
-    half_num = int(num_items/2)
-    c1 = list_of_stuff[:half_num]
-    c2 = list_of_stuff[-half_num:]
-    return c1, c2
 
 def read_input(filename: str) -> list:
 
