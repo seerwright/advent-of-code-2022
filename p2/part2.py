@@ -1,8 +1,5 @@
 # Advent of Code 2022 
 
-from nis import match
-
-
 def main(input: list) -> None:
     # Input format
     #   Two characters
