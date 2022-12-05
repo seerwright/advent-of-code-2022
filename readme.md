@@ -37,11 +37,3 @@ You can visit the AoC++ page for detail for each challenge if it has been publis
 | 23 | _Not Yet Updated_ | [challenge detail](https://adventofcode.com/2022/day/23) / [my solution](https://github.com/seerwright/advent-of-code-2022/tree/master/p23) |
 | 24 | _Not Yet Updated_ | [challenge detail](https://adventofcode.com/2022/day/24) / [my solution](https://github.com/seerwright/advent-of-code-2022/tree/master/p24) |
 | 25 | _Not Yet Updated_ | [challenge detail](https://adventofcode.com/2022/day/25) / [my solution](https://github.com/seerwright/advent-of-code-2022/tree/master/p25) |
-| 26 | _Not Yet Updated_ | [challenge detail](https://adventofcode.com/2022/day/26) / [my solution](https://github.com/seerwright/advent-of-code-2022/tree/master/p26) |
-| 27 | _Not Yet Updated_ | [challenge detail](https://adventofcode.com/2022/day/27) / [my solution](https://github.com/seerwright/advent-of-code-2022/tree/master/p27) |
-| 28 | _Not Yet Updated_ | [challenge detail](https://adventofcode.com/2022/day/28) / [my solution](https://github.com/seerwright/advent-of-code-2022/tree/master/p28) |
-| 29 | _Not Yet Updated_ | [challenge detail](https://adventofcode.com/2022/day/29) / [my solution](https://github.com/seerwright/advent-of-code-2022/tree/master/p29) |
-| 30 | _Not Yet Updated_ | [challenge detail](https://adventofcode.com/2022/day/30) / [my solution](https://github.com/seerwright/advent-of-code-2022/tree/master/p30) |
-| 31 | _Not Yet Updated_ | [challenge detail](https://adventofcode.com/2022/day/31) / [my solution](https://github.com/seerwright/advent-of-code-2022/tree/master/p31) |
-
-
