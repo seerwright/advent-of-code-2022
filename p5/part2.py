@@ -47,10 +47,10 @@ def do_move(stack_state: list, instruction: list) -> list:
     to_crate = instruction[2]
 
     s = deepcopy(stack_state)
-    for i in range(crates_to_move):
-        crate = s[from_crate-1].pop()
-        s[to_crate-1].append(crate)
-    
+
+    s[to_crate-1].extend(s[from_crate-1][-crates_to_move:])
+    s[from_crate-1] = s[from_crate-1][:-crates_to_move]
+
     return s
 
 def parse_initial_stack(input_data: list) -> dict:
