@@ -17,7 +17,7 @@ You can visit the AoC++ page for detail for each challenge if it has been publis
 | 03 | _What are the rucksack item priorities?_ | [challenge detail](https://adventofcode.com/2022/day/3) / [my solution](https://github.com/seerwright/advent-of-code-2022/tree/master/p3) |
 | 04 | _Identify cleaning area overlaps._ | [challenge detail](https://adventofcode.com/2022/day/4) / [my solution](https://github.com/seerwright/advent-of-code-2022/tree/master/p4) |
 | 05 | _Move crates for the elves_ | [challenge detail](https://adventofcode.com/2022/day/5) / [my solution](https://github.com/seerwright/advent-of-code-2022/tree/master/p5) |
-| 06 | _Not Yet Updated_ | [challenge detail](https://adventofcode.com/2022/day/6) / [my solution](https://github.com/seerwright/advent-of-code-2022/tree/master/p6) |
+| 06 | _Identify signal start sequences_ | [challenge detail](https://adventofcode.com/2022/day/6) / [my solution](https://github.com/seerwright/advent-of-code-2022/tree/master/p6) |
 | 07 | _Not Yet Updated_ | [challenge detail](https://adventofcode.com/2022/day/7) / [my solution](https://github.com/seerwright/advent-of-code-2022/tree/master/p7) |
 | 08 | _Not Yet Updated_ | [challenge detail](https://adventofcode.com/2022/day/8) / [my solution](https://github.com/seerwright/advent-of-code-2022/tree/master/p8) |
 | 09 | _Not Yet Updated_ | [challenge detail](https://adventofcode.com/2022/day/9) / [my solution](https://github.com/seerwright/advent-of-code-2022/tree/master/p9) |
