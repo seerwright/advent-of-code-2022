@@ -33,22 +33,20 @@ def main(input: list) -> None:
     stack = [[item for item in substack if item != ' '] for substack in stack]
 
     # Part 2 of 2: Instruction stuff
-    # Test one instruction here (to-do: get all instructions)
-    instructions = [[1, 2, 1]]
-    print(stack)
+    instructions = []
+    instructions_raw_data = input[input.index('')+1:]
+    for row in instructions_raw_data:
+        pieces = row.split()
+        instructions.append([int(pieces[1]), int(pieces[3]), int(pieces[5])])
 
     # Do all the moves
     for instruction in instructions:
         stack = do_move(stack, instruction)
-        print(stack)
-        print()
-
-    print(stack)
 
     # Print out the answer / all top crates
-    # blah blah
-
-
+    top_crates = ''.join([column[-1] for column in stack])
+    print(top_crates)
+    
     return None
 
 def do_move(stack_state: list, instruction: list) -> list:
