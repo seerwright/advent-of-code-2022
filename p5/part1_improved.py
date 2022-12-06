@@ -46,7 +46,7 @@ def main(input: list) -> None:
     # Print out the answer / all top crates
     top_crates = ''.join([column[-1] for column in stack])
     print(top_crates)
-    
+
     return None
 
 def do_move(stack_state: list, instruction: list) -> list:
@@ -78,4 +78,4 @@ def read_input(filename: str, split_ws: bool = True) -> list:
 if __name__ == "__main__":
     problem_input = read_input('./input/part1_test.txt', False)
     main(problem_input)
-
+    
