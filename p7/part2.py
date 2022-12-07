@@ -5,27 +5,29 @@ from pprint import pprint
 
 def main(input: list) -> None:
 
+    # Let's use trees!
     fs = Node('/', size=0)
-
     this_node = fs
 
+    # Let's call every 1 command and its 0+ outputs an interaction
     interaction = []
     cmd_out = []
     collect_output = False
-    for line in input:
 
+    # Iterate over all of the input commands and responses
+    for line in input:
+        # Command or output?
         cmd = is_cmd(line)
         if cmd:
-            # New command+output, clear everything out for next interaction
-            pprint(interaction)
-            # pprint(this_node.name)
-            # We have everything, build the next part of the tree
+            # New command+output. This means we have everything and can 
+            # clear out the interaction for the next one
+            # EXCEPTION! Last command of the list (because they won't be another cmd)
+            #            Sloppily deal with this at the end. Don't judge me - I'm working fast!
             if interaction:
+                # Update the tree ... done by reference (yuck)
                 this_node = exec_cmd(fs, this_node, interaction)
-                # for pre, fill, node in RenderTree(fs):
-                #     print("%s%s" % (pre, node.name))
 
-
+            # Tree is updated, wipe this stuff out
             interaction = []
             cmd_out = []
             collect_output=False
@@ -36,28 +38,34 @@ def main(input: list) -> None:
             collect_output = True
         
         else:
-            # This is output
+            # This is output from the command. Save it
             if collect_output:
                 interaction[1].append(line)
 
 
     # Handle the last one because it wasn't triggered. No subsequent command
-    # To-do: clean this up
     if interaction:
         this_node = exec_cmd(fs, this_node, interaction)
 
-
-    # Sum sizes at directory nodes for everything below
+    # Tree stucture built, but need to tally up directory sizes
     fs = update_dir_sizes(fs)
 
 
+    # Okay, tree is in final state!!! Show it...
     for pre, fill, node in RenderTree(fs):
         # print("%s%s" % (pre, node.name))
         print(f'{pre} {node.name} {node.size}')
 
-
+    # Report the solution
+    # In both parts we need to track the sizes of all directories meeting
+    #     a certain criterium
+    # Part 1: Add them all up if they are less than 100,000
+    # Part 2: Set a high theshold to see all of them, then manually
+    #         review to get the smallest dir that's big enough to 
+    #         free up the needed amount of space
     filtered_sizes = dir_node_listing(fs, 1000000000000000)
 
+    # Part 2 stuff ...
     space_total = 70000000
     space_needed = 30000000
     current_free = space_total - fs.size
