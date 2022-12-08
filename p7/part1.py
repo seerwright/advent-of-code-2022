@@ -63,7 +63,7 @@ def main(input: list) -> None:
     # Part 2: Set a high theshold to see all of them, then manually
     #         review to get the smallest dir that's big enough to 
     #         free up the needed amount of space
-    filtered_sizes = dir_node_listing(fs, 1000000000000000)
+    filtered_sizes = dir_node_listing(fs, 100000)
 
     # Part 2 stuff ...
     space_total = 70000000
@@ -192,6 +192,6 @@ def read_input(filename: str, split_ws: bool = True) -> list:
         return file_as_list
 
 if __name__ == "__main__":
-    problem_input = read_input('./input/part1.txt', False)
+    problem_input = read_input('./input/part1_test.txt', False)
     main(problem_input)
     
