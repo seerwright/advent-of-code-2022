@@ -4,6 +4,7 @@ from copy import deepcopy
 import numpy as np
 import numpy.typing as npt
 from pprint import pprint
+import sys
 
 def main(input: list) -> None:
 
@@ -11,36 +12,53 @@ def main(input: list) -> None:
     trees = [[*x] for x in input]
     trees = np.array(trees)
     trees = trees.astype(int)
-
     width, height = trees.shape
-    
-    cmap = make_coordinate_map(width, height, 0)
-    cmap_rot = make_coordinate_map(width, height, 3)
 
+    cmap = get_cmap_with_rotated_coordinates(width, height)
 
+    # Keep track of scenic scores
     scores = []
 
     # For each tree, calc the scenic score
     for w in range(width):
         for h in range(height):
-            scores.append(get_scenic_score(trees, w, h, cmap, cmap_rot))
-
+            scores.append(get_scenic_score(trees, w, h, cmap))
+    
     print(f'Top scenic score is {max(scores)}')
 
     return None
 
-def get_scenic_score(trees: npt.ArrayLike, w: int, h: int, cmap: list, cmap_rot: list) -> int:
-    total_w, total_h = trees.shape
+
+def get_cmap_with_rotated_coordinates(width: int, height: int) -> dict:
+    # Coordinate map and rotated positions
+    cmap = make_coordinate_map(width, height, 0)
+    cmap_rot = make_coordinate_map(width, height, 1)
+    
+    # Lazy...
+    def convert_split(a):
+        return int(a[0]), int(a[1])
+    
+    # Convert to dictionary for O(1) lookups!
+    cmap = {coord: [convert_split(coord.split('X'))] for sublist in cmap for coord in sublist}
+    
+    # For each item in the rotated map, get it's new x,y for the prev coord
+    for row_num, row in enumerate(cmap_rot):
+        for col_num, col in enumerate(row):
+            x, y = row_num, col_num
+            coord_id = col
+            cmap[f'{x}X{y}'].append(convert_split(col.split('X')))
+
+    # cmap_rot = {coord: convert_split(coord.split('X')) for sublist in cmap_rot for coord in sublist}
+    return cmap
 
 
-    coord = cmap[w][h]
+def get_scenic_score(trees: npt.ArrayLike, w: int, h: int, cmap: list) -> int:
+    coord = f'{w}X{h}'
     my_height = trees[w][h]
 
-    l_vis = 0
-    r_vis = 0
-    u_vis = 0
-    d_vis = 0
+    l_vis = r_vis = u_vis = d_vis = 0
 
+    # Part 1 of 2: Look left and right first
     this_row = trees[w,:]
 
     left_slice = this_row[:h]
@@ -50,20 +68,11 @@ def get_scenic_score(trees: npt.ArrayLike, w: int, h: int, cmap: list, cmap_rot:
     right_slice = this_row[h+1:]
     r_vis = get_visibility(right_slice, my_height)
     
-
-    new_w, new_h = None, None
-    for cw in range(total_w):
-        for ch in range(total_h):
-            if cmap_rot[cw][ch] == coord:
-                new_w, new_h = cw, ch
-                break
-
-
-        
+    # Part 2 of 2: Rotate the map, then look left and right again
+    new_w, new_h = cmap[coord][1]
     t_trees = np.rot90(trees)
 
     this_row = t_trees[new_w,:]
-
 
     left_slice = this_row[:new_h]
     left_slice = np.flip(left_slice)
@@ -71,7 +80,6 @@ def get_scenic_score(trees: npt.ArrayLike, w: int, h: int, cmap: list, cmap_rot:
 
     right_slice = this_row[new_h+1:]
     d_vis = get_visibility(right_slice, my_height)
-
 
     return l_vis * r_vis * u_vis * d_vis
 
@@ -94,6 +102,7 @@ def get_visibility(slice: npt.ArrayLike, h: int) -> int:
     return v
 
 def make_coordinate_map(w: int, h: int, rot: int = 0) -> list:
+    # A little goofy, but ...
     c = []
     for width in range(w):
         r = []

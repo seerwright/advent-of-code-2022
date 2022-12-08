@@ -19,7 +19,7 @@ You can visit the AoC++ page for detail for each challenge if it has been publis
 | 05 | _Move crates for the elves_ | [challenge detail](https://adventofcode.com/2022/day/5) / [my solution](https://github.com/seerwright/advent-of-code-2022/tree/master/p5) |
 | 06 | _Identify signal start sequences_ | [challenge detail](https://adventofcode.com/2022/day/6) / [my solution](https://github.com/seerwright/advent-of-code-2022/tree/master/p6) |
 | 07 | _Will the Elven filesystem be big enough?_ | [challenge detail](https://adventofcode.com/2022/day/7) / [my solution](https://github.com/seerwright/advent-of-code-2022/tree/master/p7) |
-| 08 | _Not Yet Updated_ | [challenge detail](https://adventofcode.com/2022/day/8) / [my solution](https://github.com/seerwright/advent-of-code-2022/tree/master/p8) |
+| 08 | _Find a nice view of trees in the woods_ | [challenge detail](https://adventofcode.com/2022/day/8) / [my solution](https://github.com/seerwright/advent-of-code-2022/tree/master/p8) |
 | 09 | _Not Yet Updated_ | [challenge detail](https://adventofcode.com/2022/day/9) / [my solution](https://github.com/seerwright/advent-of-code-2022/tree/master/p9) |
 | 10 | _Not Yet Updated_ | [challenge detail](https://adventofcode.com/2022/day/10) / [my solution](https://github.com/seerwright/advent-of-code-2022/tree/master/p10) |
 | 11 | _Not Yet Updated_ | [challenge detail](https://adventofcode.com/2022/day/11) / [my solution](https://github.com/seerwright/advent-of-code-2022/tree/master/p11) |
