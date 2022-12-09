@@ -6,45 +6,53 @@ def main(input: list) -> None:
     moves = [d.split() for d in input]
     moves = expand_move_list(moves)
 
-    h = [0, 0]
-    t = [0, 0]
+    # Rope with two knots + adjacency pairs for convenience
+    num_knots = 10
+    rope = [[0, 0] for _ in range(num_knots)]
+    adjacency_pairs = list(zip([i for i in range(num_knots)][:-1], [i for i in range(num_knots)][1:]))
+    num_adj_pairs = len(adjacency_pairs)
 
-    tail_visits = {fmt_key(t): 'Merry Christmas!'}
+    # Track these because that's the whole point of this exercise!
+    tail_visits = {fmt_key(rope[0]): None}
 
+    # Do all the moves
     for idx, m in enumerate(moves):
 
-        # print(f'#{idx} BEFORE H move:\tm {m}\th {h}\tt {t}\tadjacent? {is_adj(h, t)}')
-        h = do_move(m, h)
-        is_a = is_adj(h, t)
-        # print(f'#{idx} AFTER H move:\tm {m}\th {h}\tt {t}\tadjacent? {is_adj(h, t)}')
-        if not is_a:
-            t = move_t(t, h)
-            if fmt_key(t) not in tail_visits:
-                tail_visits[fmt_key(t)] = 'Merry Christmas!'
-            dir, dst = m[0], int(m[1])
-            # print(f'#{idx} AFTER T move:\tm {m}\th {h}\tt {t}\tadjacent? {is_adj(h, t)}')
-        # print('------------------------------------------------')
+        # Move the head
+        rope[0] = do_move(m, rope[0])
 
+        # Move the body
+        for knot_num, a in enumerate(adjacency_pairs):
+            last_knot = True if (knot_num +1) == num_adj_pairs else False
 
-    # print_board(15, h, t, tail_visits)  
-    # print()
-    print(f'Tail visited {len(tail_visits.keys())} locations.')
+            is_adjacent = is_adj(rope[a[0]], rope[a[1]])
 
+            if not is_adjacent:
+                rope[a[1]] = move_t(rope[a[1]], rope[a[0]])
+
+            if last_knot:
+                if fmt_key(rope[-1]) not in tail_visits:
+                    tail_visits[fmt_key(rope[-1])] = None
+
+    print(f'\n\nTail visited {len(tail_visits.keys())} locations.')
     return None
 
-def print_board(size: int, h: list, t: list, visited: dict = None) -> None:
+def print_board(size: int, rope: list, visited: dict = None) -> None:
     offset = int(size/2)
     board = [['.'] * size for _ in range(size)]
-    board[h[1]-offset][h[0]+offset] = 'H'
-    board[t[1]-offset][t[0]+offset] = 'T'
 
     if visited:
         for v in visited.keys():
             vx, vy = v.split(',')
             board[int(vy)-offset][int(vx)+offset] = '#'
+
+    for idx, r in enumerate(rope):
+        board[r[1]-offset][r[0]+offset] = str(idx)
+
+    board.reverse()
     pretty = [''.join(row) for row in board]
     print('\n'.join(pretty))
-
+    return None
 
 def fmt_key(t: list) -> str:
     return ','.join(str(c) for c in t)
@@ -62,38 +70,29 @@ def move_t(t, h) -> list:
     elif hx != tx and hy != ty:
         # Need to move in BOTH directions
         new_tx = new_ty = None
-        if abs(hx-tx) > 1:
-            new_tx = int((hx+tx)/2)
-            new_ty = hy
+
+        if get_distance(t, h) < 2.8:
+        # You will only encounter this on Part 1
+            if abs(hx-tx) > 1:
+                new_tx = int((hx+tx)/2)
+                new_ty = hy
+            else:
+                new_tx = hx
+                new_ty = int((ty+hy)/2)
         else:
-            new_tx = hx
+        # This is possible on Part 2
+            new_tx = int((hx+tx)/2)
             new_ty = int((ty+hy)/2)
         return [new_tx, new_ty]
+
     else:
-        # What am I forgetting?
-        print('move_t does not have full coverage!!!')
         return None
         
-
-
-
-
-    if abs(tx-hx) > abs(ty-hy):
-
-        new_t = [tx + (hx - tx), ty]
-    else:
-        new_t = [tx, ty + (hy - ty)]
-
-    # Check one more time because the above may not
-    # have fixed it, but one more move definitely will
-    if is_adj(h, new_t):
-        return new_t
-    else:
-        print(f'Not adjacent between {h} and {new_t}')
-        return move_t(new_t, h)
+def get_distance(p1: list, p2: list) -> float:
+    return ((p1[0] - p2[0])**2 + (p1[1] - p2[1])**2)**0.5
 
 def is_adj(hc: list, tc: list) -> bool:
-    d = ((hc[0] - tc[0])**2 + (hc[1] - tc[1])**2)**0.5
+    d = get_distance(hc, tc)
     # d == 1: horizontal or vertical offset
     # 1 < d < 1.415: one diag away
     # d > 1.415: far away
@@ -111,8 +110,6 @@ def expand_move_list(moves: list) -> list:
         for _ in range(dst):
             e.append([dir, 1])
     return e
-
-        
 
 def do_move(m: list, h: list) -> list:
     dir, dst = m

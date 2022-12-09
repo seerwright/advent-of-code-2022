@@ -12,8 +12,10 @@ def main(input: list) -> None:
     adjacency_pairs = list(zip([i for i in range(num_knots)][:-1], [i for i in range(num_knots)][1:]))
     num_adj_pairs = len(adjacency_pairs)
 
+    # Track these because that's the whole point of this exercise!
     tail_visits = {fmt_key(rope[0]): None}
 
+    # Do all the moves
     for idx, m in enumerate(moves):
 
         # Move the head
@@ -23,11 +25,10 @@ def main(input: list) -> None:
         for knot_num, a in enumerate(adjacency_pairs):
             last_knot = True if (knot_num +1) == num_adj_pairs else False
 
-            is_a = is_adj(rope[a[0]], rope[a[1]])
+            is_adjacent = is_adj(rope[a[0]], rope[a[1]])
 
-            if not is_a:
+            if not is_adjacent:
                 rope[a[1]] = move_t(rope[a[1]], rope[a[0]])
-                dir, dst = m[0], int(m[1])
 
             if last_knot:
                 if fmt_key(rope[-1]) not in tail_visits:
