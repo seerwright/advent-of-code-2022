@@ -1,7 +1,6 @@
 # Advent of Code 2022 
 
-import numpy as np
-import sys
+import time
 
 def main(input: list) -> None:
     moves = [d.split() for d in input]
@@ -143,6 +142,23 @@ def read_input(filename: str, split_ws: bool = True) -> list:
         return file_as_list
 
 if __name__ == "__main__":
+    start_time = time.time()
+
+    # Get input
     problem_input = read_input('./input/part1.txt', False)
+    
+    input_time = time.time()
+
+    # Solve
     main(problem_input)
+
+    end_time = time.time()
+    
+    # Report out execution time
+    print('\n\n---------- Script Performance ------')
+    print("Get Input", (input_time - start_time) * 10**3, "ms")
+    print("Solve", (end_time - input_time) * 10**3, "ms")
+    print("------------------------------------")
+    print("Total Time", (end_time - start_time) * 10**3, "ms")
+    print('\n\n')
     

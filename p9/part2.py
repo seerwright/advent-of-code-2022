@@ -1,19 +1,18 @@
 # Advent of Code 2022 
 
-import numpy as np
-import sys
+import time
 
 def main(input: list) -> None:
     moves = [d.split() for d in input]
     moves = expand_move_list(moves)
 
-    # Rope with two knots + adjacency pairs for convenience
+    # Rope with ten knots + adjacency pairs for convenience
     num_knots = 10
     rope = [[0, 0] for _ in range(num_knots)]
     adjacency_pairs = list(zip([i for i in range(num_knots)][:-1], [i for i in range(num_knots)][1:]))
     num_adj_pairs = len(adjacency_pairs)
 
-    tail_visits = {fmt_key(rope[0]): 'Merry Christmas!'}
+    tail_visits = {fmt_key(rope[0]): None}
 
     for idx, m in enumerate(moves):
 
@@ -31,10 +30,8 @@ def main(input: list) -> None:
                 dir, dst = m[0], int(m[1])
 
             if last_knot:
-                print('This is last_knot logic')
-                print(f'Logging location on last knot {rope[-1]}')
                 if fmt_key(rope[-1]) not in tail_visits:
-                    tail_visits[fmt_key(rope[-1])] = 'Merry Christmas!'
+                    tail_visits[fmt_key(rope[-1])] = None
 
     print(f'\n\nTail visited {len(tail_visits.keys())} locations.')
     return None
@@ -141,6 +138,23 @@ def read_input(filename: str, split_ws: bool = True) -> list:
         return file_as_list
 
 if __name__ == "__main__":
+    start_time = time.time()
+
+    # Get input
     problem_input = read_input('./input/part1.txt', False)
+    
+    input_time = time.time()
+
+    # Solve
     main(problem_input)
+
+    end_time = time.time()
+    
+    # Report out execution time
+    print('\n\n---------- Script Performance ------')
+    print("Get Input", (input_time - start_time) * 10**3, "ms")
+    print("Solve", (end_time - input_time) * 10**3, "ms")
+    print("------------------------------------")
+    print("Total Time", (end_time - start_time) * 10**3, "ms")
+    print('\n\n')
     
