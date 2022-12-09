@@ -7,7 +7,7 @@ def main(input: list) -> None:
     moves = expand_move_list(moves)
 
     # Rope with two knots + adjacency pairs for convenience
-    num_knots = 10
+    num_knots = 2
     rope = [[0, 0] for _ in range(num_knots)]
     adjacency_pairs = list(zip([i for i in range(num_knots)][:-1], [i for i in range(num_knots)][1:]))
     num_adj_pairs = len(adjacency_pairs)
