@@ -62,7 +62,7 @@ def render(cycle_hist: dict) -> None:
         if currpx in spritepx:
             screen[rownum].append('#')
         else:
-            screen[rownum].append('.')
+            screen[rownum].append(' ')
 
     # Show the answer
     for printrow in range(6):
